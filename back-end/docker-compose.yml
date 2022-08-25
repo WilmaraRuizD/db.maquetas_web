@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+
+    api:
+     container_name: api-UMBRA3D.STUDIO-dock
+     restart: always
+     build: .
+     ports:
+      - 4000:3010

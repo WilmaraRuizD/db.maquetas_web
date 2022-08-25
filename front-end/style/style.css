@@ -1,0 +1,14 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+   font-family: 'Lobster', cursive;
+
+}
+
+.body{background-color: #f7f6f6;}
+
+.table thead{
+background-color: #0a4f70;
+color: white;
+}

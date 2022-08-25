@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const {inmuebleShema}=require("../schemas-joi/inmueble");
 const validator = require('express-joi-validation').createValidator({})
+const decodeToken=require("../utilit/middleware")
+
 
 const mysqlConnection=require('../db/sql');
 
-
 //Selección todos los inmuebles
-router.get('/inmuebles',(req,res) =>{
+router.get('/inmuebles',decodeToken,(req,res) =>{
     mysqlConnection.query(`SELECT * FROM inmuebles; `,(err,rows,fields)=>{
           if(!err){
             if(rows){
@@ -27,7 +28,6 @@ router.get('/inmuebles',(req,res) =>{
 //Filtra lineas por id
 router.get('/inmuebles/:id',(req,res) =>{
     const {id}= req.params;
-  
     mysqlConnection.query(`SELECT * FROM inmuebles WHERE id=?`,[id],(err,rows,fields)=>{
           if(!err){
               if(id== null){
@@ -45,7 +45,7 @@ router.get('/inmuebles/:id',(req,res) =>{
 
 //crea un nuevo inmueble
 
-  router.post('/inmuebles',validator.body(inmuebleShema),(req,res)=>{
+  router.post('/inmuebles',decodeToken,validator.body(inmuebleShema),(req,res)=>{
     const data=req.body;
     console.log(req.body);
        mysqlConnection.query('INSERT INTO inmuebles set ?', data,(err,inmuebles)=>{
@@ -58,7 +58,7 @@ router.get('/inmuebles/:id',(req,res) =>{
     });
 
 // Actualizar el inmueble de forma
-router.put('/inmuebles/:id',validator.body(inmuebleShema),(req,res)=>{
+router.put('/inmuebles/:id',decodeToken,validator.body(inmuebleShema),(req,res)=>{
     const {newinmueble}=req.body
     const {id} = req.params;
 
@@ -69,7 +69,7 @@ router.put('/inmuebles/:id',validator.body(inmuebleShema),(req,res)=>{
                 }
                 else{
                   if(rows.length>0){
-                    mysqlConnection.query('UPDATE inmuebles set ? WHERE id = ?' , [req.body, id], (err, rows) =>{
+                    mysqlConnection.query('UPDATE inmuebles set ? WHERE id = ?' , [inmuebleShema, id], (err, rows) =>{
                         if(!err) {
                          res.json({status: 'inmueble Updated'});
                           
@@ -87,7 +87,7 @@ router.put('/inmuebles/:id',validator.body(inmuebleShema),(req,res)=>{
 
 //eliminar inmueble 
 
-router.delete('/inmuebles/:id',(req,res) =>{
+router.delete('/inmuebles/:id',decodeToken,(req,res) =>{
     const {id}= req.params;
   console.log(id)
     mysqlConnection.query(`SELECT * FROM inmuebles WHERE id=?`,[id],(err,rows,fields)=>{
@@ -134,7 +134,7 @@ router.get('/inmuebles/num/:num1,:num2',(req,res) =>{
 
 
 //Filtra lineas por id
-router.get('/inmuebles/numero/:num',(req,res) =>{
+router.get('/inmuebles/numero/:num',decodeToken,(req,res) =>{
   const {num}= req.params;
 
   mysqlConnection.query(`SELECT * FROM inmuebles WHERE num=?`,[num],(err,rows,fields)=>{
@@ -151,8 +151,5 @@ router.get('/inmuebles/numero/:num',(req,res) =>{
         {res.status(500).json({ error: 'INTERNAL SERVER ERROR' })}
     });
 });
-
-//crea un nuevo inmueble
-
 
 module.exports = router ;

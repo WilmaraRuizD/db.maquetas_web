@@ -16,6 +16,8 @@
  * @swagger
  * /api/inmuebles:
  *  get:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Trae todos los inmuebles
  *      tags: [Inmueble]
  *      responses:
@@ -33,6 +35,8 @@
  * @swagger
  * /api/inmuebles/{id}:
  *  get:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Consulta los inmueble por su id 
  *      tags: [Inmueble]
  *      parameters:
@@ -53,6 +57,8 @@
  * @swagger
  * /api/inmuebles:
  *  post:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Crea un nuevo inmueble
  *      tags: [Inmueble]
  *      requestBody:
@@ -75,6 +81,8 @@
  * @swagger
  * /api/inmuebles/{id}:
  *  delete:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Elimina las inmueble pasándole el ID como parámetro
  *      tags: [Inmueble]
  *      parameters:
@@ -95,6 +103,8 @@
  * @swagger
  * /api/inmuebles/{id}:
  *  put:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Edita un inmueble pasándole el ID como parámetro
  *      tags: [Inmueble]
  *      parameters:
@@ -129,6 +139,8 @@
  * @swagger
  * /api/inmuebles/numero/{num}:
  *  get:
+ *      security:
+ *          - bearerAuth: []
  *      summary: Consulta los inmuebles por su número
  *      tags: [Inmueble]
  *      parameters:
